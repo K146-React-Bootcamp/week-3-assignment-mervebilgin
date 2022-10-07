@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Javascrpit Custom Event Counter Example</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <h3>COUNTER</h3>
+
+    <!-- 
+        id si counter olan bir span ve iki adet onclick eventinde counterChange fonksiyon ekliyoruz, 
+        parametre olarak da increment ve decrement yazıyoruz
+     -->
+    <button
+      style="background-color: tomato; color: white; width: 50px; height: 40px"
+      onclick="counterChange('increment')"
+    >
+      +
+    </button>
+
+    <span style="color: blue" id="counter">0</span>
+    <button
+      style="
+        background-color: blueviolet;
+        color: white;
+        width: 50px;
+        height: 40px;
+      "
+      onclick="counterChange('decrement')"
+    >
+      -
+    </button>
+
+    <script src="index.js"></script>
+  </body>
+</html>
