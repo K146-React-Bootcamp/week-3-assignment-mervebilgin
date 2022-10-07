@@ -5,91 +5,108 @@ import classes from "./style.module.css";
 const url = "https://jsonplaceholder.typicode.com/todos";
 
 const TodoList = () => {
-	const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([]);
   const [selectedTodo, setSelectedTodo] = useState();
 
-	useEffect(() => {
-		fetch(url)
-			.then((response) => response.json())
-			.then((todos) => {
-				setTodos(todos);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
+  useEffect(() => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((todos) => {
+        setTodos(todos);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-	const renderThead = () => {
-		return (
-			<thead>
-				<tr>
-					<th>id</th>
-					<th>başlık</th>
-					<th>durum</th>
-					<th>Aksiyon</th>
-				</tr>
-			</thead>
-		);
-	};
+  const renderThead = () => {
+    return (
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>başlık</th>
+          <th>durum</th>
+          <th>Aksiyon</th>
+        </tr>
+      </thead>
+    );
+  };
 
+  //Edit
+  const editTodo = (id, value) => {
+    const newTodos = [...todos];
+    const todo = newTodos.find((todo) => todo.id === id);
+    todo.title = value;
+    setTodos(newTodos);
+  };
 
   const remove = (todo) => {
     if (window.confirm("Silmek üzerisiniz emin misiniz")) {
-      setTodos(prev => {
-        return prev.filter(x => x.id != todo.id)
-      })
+      setTodos((prev) => {
+        return prev.filter((x) => x.id != todo.id);
+      });
     }
-  }
+  };
 
   const edit = (todo) => {
     setSelectedTodo(todo);
-  }
+  };
 
-	const renderBody = () => {
-		return (
-			<tbody>
-				{todos.slice(0, 15).map((todo, index) => {
-					return (
-						<tr key={index}>
-							<td>{todo.id}</td>
-							<td>{todo.title}</td>
-							<td>{todo.completed ? "Tamamlandı" : "Yapılacak"}</td>
-							<td>
-								<Button
+  const renderBody = () => {
+    return (
+      <tbody>
+        {todos.slice(0, 15).map((todo, index) => {
+          return (
+            <tr key={index}>
+              <td>{todo.id}</td>
+              <td>{todo.title}</td>
+              <td>{todo.completed ? "Tamamlandı" : "Yapılacak"}</td>
+              <td>
+                <Button
                   className={`btn btn-sm btn-danger ${classes.actionButton} `}
                   onClick={() => remove(todo)}
-								>
-									Sil
-								</Button>
-								<Button onClick={() => edit(todo)} className="btn btn-sm btn-warning">Düzenle</Button>
-							</td>
-						</tr>
-					);
-				})}
-			</tbody>
-		);
-	};
+                >
+                  Sil
+                </Button>
+                <Button
+                  onClick={() => edit(todo)}
+                  className="btn btn-sm btn-warning"
+                >
+                  Düzenle
+                </Button>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    );
+  };
 
 
   const renderEditForm = () => {
     return (
       <div>
-        <input type={"text"}/>
-        <inpu type="check" />
-        <Button>Kaydet</Button>
+		{/* Yukarda tanımlamış olduğum editTodo metodunu kullanarak, 
+		editlenecek olan kısmın içeriği yazılacak olan bilgiler ile değiştirilir. */}
+        <input
+          type="text"
+          onChange={(e) => editTodo(selectedTodo.id, e.target.value)}
+        />
+
+        <Button onClick={() => setSelectedTodo(undefined)}>Kaydet</Button>
         <Button onClick={() => setSelectedTodo(undefined)}>Vazgeç</Button>
       </div>
-    )
-  }
-	return (
+    );
+  };
+  return (
     <div className={`${classes.container} container`}>
-      { selectedTodo && renderEditForm()}
-			<table className="table">
-				{renderThead()}
+      {selectedTodo && renderEditForm()}
+      <table className="table">
+        {renderThead()}
         {renderBody()}
-			</table>
-		</div>
-	);
+      </table>
+    </div>
+  );
 };
 
 export default TodoList;
