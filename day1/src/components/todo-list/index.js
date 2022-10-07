@@ -33,7 +33,7 @@ const TodoList = () => {
   };
 
   //Edit
-  const editTodo = (id, value) => {
+  const editLine = (id, value) => {
     const newTodos = [...todos];
     const todo = newTodos.find((todo) => todo.id === id);
     todo.title = value;
@@ -90,7 +90,7 @@ const TodoList = () => {
 		editlenecek olan kısmın içeriği yazılacak olan bilgiler ile değiştirilir. */}
         <input
           type="text"
-          onChange={(e) => editTodo(selectedTodo.id, e.target.value)}
+          onChange={(e) => editLine(selectedTodo.id, e.target.value)}
         />
 
         <Button onClick={() => setSelectedTodo(undefined)}>Kaydet</Button>
